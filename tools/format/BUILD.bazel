@@ -1,0 +1,13 @@
+load("@npm//:prettier/package_json.bzl", prettier = "bin")
+
+prettier.prettier_binary(
+    name = "prettier",
+    data = ["//:prettierrc"],
+    env = {
+        "BAZEL_BINDIR": ".",
+    },
+    fixed_args = [
+        "--config=\"$$JS_BINARY__RUNFILES\"/$(rlocationpath //:prettierrc)",
+    ],
+    visibility = ["//visibility:public"],
+)

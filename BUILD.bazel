@@ -1,0 +1,22 @@
+load("@aspect_rules_js//js:defs.bzl", "js_binary", "js_library")
+load("@aspect_rules_lint//format:defs.bzl", "format_test")
+load("@npm//:defs.bzl", "npm_link_all_packages")
+
+npm_link_all_packages(name = "node_modules")
+
+js_binary(
+    name = "app",
+    entry_point = "index.js",
+)
+
+js_library(
+    name = "prettierrc",
+    srcs = ["prettier.config.js"],
+    visibility = ["//tools/format:__pkg__"],
+)
+
+format_test(
+    name = "app.check",
+    javascript = "//tools/format:prettier",
+    srcs = ["index.js"],
+)
